@@ -8,6 +8,8 @@ main.appendChild(cardContainer);
 const delay = 1000;
 const overlay = document.querySelector(".overlay");
 const loader = document.getElementById("loader");
+const productsinCart = document.querySelector('.productsinCart');
+import { products, addItemToCart, removeItemFromCart, getTotal, displayItemsCart} from './cart.js';
 
 const getJackets = async () => {
     loader.classList.add("hide");

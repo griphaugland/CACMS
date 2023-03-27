@@ -6,6 +6,8 @@ const main = document.querySelector('.detailsmain');
 const header = document.querySelector('header');
 const delay = 1000;
 const loader = document.getElementById("loader");
+const productsinCart = document.querySelector('.productsinCart');
+import { products, addItemToCart, removeItemFromCart, getTotal, displayItemsCart } from './cart.js';
 
 const getSingleJacket = async () => {
   try {
@@ -49,7 +51,7 @@ const getSingleJacket = async () => {
                </div>
              </div>
              <div class="jacketpricecontainer">
-             <div class="adcbutton">Add to cart</div>
+             <div class="adcbutton">Add to cart</div> <div class="remfromCart"><i class="fa-solid fa-trash"></i></div>
              </div>
           </div>
           <div class="image_wrapper-details">
@@ -59,7 +61,20 @@ const getSingleJacket = async () => {
   } catch (error) {
     console.error(error);
   }
-};
+  const adcButton = document.querySelector('.adcbutton');
+  const remove = document.querySelector('.remfromCart');
 
-
+  adcButton.addEventListener("click", function() {
+    remove.style.display = "flex";
+    adcButton.innerHTML = "Added to cart";
+    adcButton.style.color = "green";
+    addItemToCart(id)
+  });
+  remove.addEventListener("click", function() {
+    remove.style.display = "none";
+    adcButton.innerHTML = "Add to cart";
+    adcButton.style.color = "";
+    removeItemFromCart(id)
+  })
+}
 getSingleJacket();

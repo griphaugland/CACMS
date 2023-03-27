@@ -1,3 +1,4 @@
+const itemsCheckout = document.querySelector(".items-checkout");
 const queryString = document.location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get('id');
@@ -8,6 +9,7 @@ const adcbutton = document.querySelector('.adcbutton')
 const productsinCart = document.querySelector('.productsinCart');
 const shoppingCart = document.querySelector('.shoppingcart');
 const cartIcon = document.querySelector('#cart');
+const formCheckout = document.querySelector(".form-checkout")
 let shoppingCartOpen = false;
 
 fetch(url)
@@ -94,32 +96,6 @@ export let products = [
       }
 ]
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-export function addItemToCart(productId) {
-    let product = products.find(function(product){
-        return product.id == productId;
-    });
-    if(product){
-        if(cart.length == 0) {
-            cart.push(product);
-        } else {
-            let res = cart.find(element => element.id == productId);
-            if(res === undefined) {
-                cart.push(product);
-            }
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        displayItemsCart()
-    }
-}
-
-export function removeItemFromCart(productId) {
-    let temp = cart.filter(item => item.id != productId)
-    localStorage.setItem("cart", JSON.stringify(temp))
-    displayItemsCart()
-}
-
 export function getTotal() {
     let temp = cart.map(function(item){
         return parseFloat(item.price);
@@ -130,45 +106,67 @@ export function getTotal() {
     }, 0);
     return sum
 }
-cartIcon.onclick = () => {
-    displayItemsCart();
-    if (!shoppingCartOpen) {
-        shoppingCart.style.display = "flex";
-        shoppingCartOpen = true;    
-    } else {
-        shoppingCart.style.display = "none";
-       shoppingCartOpen = false;
-       
-    }
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+if (cart.length == 0) {
+  itemsCheckout.innerHTML = "You have no products in the shopping cart";
+} else {
+  let html = "";
+  for (let i = 0; i < cart.length; i++) {
+    let product = cart[i];
+    html += `
+    <div class="container-cart-checkout">
+        <div class='product'>${product.name}</div>
+        <div class="imgcart-cont">
+        <img class="imagecart" src="${product.src}">
+        </div>
+        <div class="pricecart">$${product.price}</div>
+    </div>
+    `;
+  }
+  itemsCheckout.innerHTML = html;
+  let totalcost = getTotal();
+  const total = document.createElement('p');
+  total.classList.add('finalprice-cart');
+  total.innerHTML = `Total: $${totalcost}`
+  itemsCheckout.appendChild(total)
 }
 
-export function displayItemsCart() {
-    if (cart.length == 0) {
-      productsinCart.innerHTML = "You have no products in the shopping cart";
-    } else {
-      let html = "";
-      for (let i = 0; i < cart.length; i++) {
-        let product = cart[i];
-        html += `
-        <div class="container-cart">
-            <div class='product'>${product.name}</div>
-            <div class="imgcart-cont">
-            <img class="imagecart" src="${product.src}">
-            </div>
-            <div class="pricecart">$${product.price}</div>
-        </div>
-        `;
-      }
-      productsinCart.innerHTML = html;
-    }
+const nameReg = /^[a-zA-Z]{3,}$/;
+const subjectReg = /^.{10,}$/;
+const commonEmail =  /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/;
+const addressReg = /^[a-zA-Z0-9\s,'-]*.{25,}$/;
+
+const regexTester = (input, rule) => {
+  if (input === '') {
+    console.log('RegTest:', 'false, empty string');
+    return false;
   }
-    let totalcost = getTotal();
-  const total = document.createElement('p');
-  total.classList.add('price-cart');
-  total.innerHTML = `Total: $${totalcost}`
-  shoppingCart.appendChild(total)
-  const checkoutbtn = document.createElement('a');
-  checkoutbtn.classList.add('checkoutbtn');
-  checkoutbtn.href = "/pages/checkout.html";
-  checkoutbtn.innerHTML = "Checkout"
-  shoppingCart.appendChild(checkoutbtn)
+  console.log('RegTest:', rule.test(input));
+  return rule.test(input);
+};
+const nameInput = document.querySelector('#nameInput')
+const subjectInput = document.querySelector('#subjectInput')
+const emailInput = document.querySelector('#emailInput')
+const addressInput = document.querySelector('#addressInput')
+const form = document.querySelector('.contactForm');
+const submit = document.querySelector('#formButton');
+const feedback = document.createElement('div');
+const nameFeedback = document.querySelector('.nameFeedback')
+const subjectFeedback = document.querySelector('.subjectFeedback')
+const emailFeedback = document.querySelector('.emailFeedback')
+const addressFeedback = document.querySelector('.addressFeedback')
+form.appendChild(feedback);
+
+form.onsubmit = (e) => {
+    e.preventDefault();
+    if(!regexTester(nameInput.value, nameReg) || !regexTester(subjectInput.value, subjectReg) || !regexTester(emailInput.value, commonEmail) || !regexTester(addressInput.value, addressReg)) {
+        feedback.innerHTML = "Wrong format, check the guidelines and try again.";
+        return;
+    }
+
+    const formBtn = document.querySelector('#formButton');
+    formBtn.addEventListener("click", 
+    form.innerHTML = "Order Placed! Thanks for shopping with us! We will ship your items within 2-3 business days.");
+};
