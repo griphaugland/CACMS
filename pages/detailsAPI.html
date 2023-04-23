@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Details</title>
+    <title>Details</title>
+    <script src="../js/details.js" type="module" defer></script>
     <link rel="stylesheet" href="../style/main.css" />
-    <script src="/js/details.js" type="module"></script>
-    <script src="/js/script.js" type="module" defer></script>
-    <script src="/js/cart.js" type="module" defer></script>
     <script
       src="https://kit.fontawesome.com/17c7a6edf9.js"
       crossorigin="anonymous"
@@ -40,7 +38,12 @@
         </ul>
       </nav>
     </header>
-    <main class="detailsmain"></main>
+    <main class="productmain">
+      <div id="loader">
+        <img class="loader" src="../media/logo3.png" />
+      </div>
+      <div class="details-container"></div>
+    </main>
     <div class="shoppingcart">
       <div class="cartheader">Shopping Cart</div>
       <div class="productsinCart"></div>

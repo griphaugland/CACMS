@@ -1,7 +1,9 @@
 const queryString = document.location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get('id');
-const url = '/js/jackets.json';
+const username = "ck_6b5f0542fabbc20fc3ca5807c06541fed36f89a1"
+const password = "cs_b0cd6babd2555e5acacfb8022b7764f3a657acf0"
+const url = "https://gripdev.no/wp-json/wc/v3/products/";
 const main = document.querySelector('.detailsmain');
 const delay = 1000;
 const adcbutton = document.querySelector('.adcbutton')
@@ -10,7 +12,13 @@ const shoppingCart = document.querySelector('.shoppingcart');
 const cartIcon = document.querySelector('#cart');
 let shoppingCartOpen = false;
 
-fetch(url)
+function fetchFunc() { 
+    fetch(url, {
+    method: 'GET',
+    headers: new Headers({
+      'Authorization': 'Basic ' + btoa(username + ":" + password)
+    })
+  })
 .then(function(response){
     return response.json();
 })
@@ -19,81 +27,8 @@ fetch(url)
     if(!localStorage.getItem("cart")){
         localStorage.setItem("cart", "[]");
     }
-});
-
-export let products = [
-    {
-    name: "Expedition",
-    id: 1,
-    price: 194,
-    description: "A durable and thick jacket designed to keep you warm and dry on your adventures.",
-    src: "../media/RainyDays_Jacket1.png",
-    color1: "grey",
-    color2: "black",
-    color3: "orange",
-    },
-    {
-    name: "Explorer",
-    id: 2,
-    price: 96,
-    description: "Warm and insulated jacket with zippered hand pockets",
-    src: "../media/RainyDays_Jacket2.png",
-    color1: "grey",
-    color2: "black",
-    color3: "white",
-    },
-    {
-    name: "Hercules",
-    id: 3,
-    price: 74,
-    description: "Waterproof and breathable jacket with underarm vents and adjustable cuffs",
-    src: "../media/RainyDays_Jacket3.png",
-    color1: "red",
-    color2: "blue",
-    color3: "black",
-    },
-    {
-    name: "Storm",
-    id: 4,
-    price: 125 ,
-    description: "Insulated and windproof jacket with adjustable hem and cuffs",
-    src: "../media/RainyDays_Jacket4.png",
-    color1: "grey",
-    color2: "white",
-    color3: "black",
-    },
-     {
-    name: "Charge",
-    id: 5,
-    description: "Windproof and water-resistant jacket with detachable hood",
-    price: 274,
-    src: "../media/RainyDays_Jacket5.png",
-    color1: "grey",
-    color2: "blue",
-    color3: "black",
-    },
-    {
-    name: "Sleek",
-    id: 6,
-    price: 83,
-    description: "Water-resistant lightweight jacket with breathable mesh lining",
-    src: "../media/RainyDays_Jacket6.png",
-    color1: "grey",
-    color2: "black",
-    color3: "yellow",
-    },
-     {
-     name: "Heat",
-     id: 7,
-     price: 95,
-     description: "A durable and thick wool jacket perfect for camping trips",
-     src: "../media/RainyDays_Jacket7.png",
-     color1: "red",
-     color2: "blue",
-     color3: "black",
-      }
-]
-
+})}
+fetchFunc();
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 export function addItemToCart(productId) {
@@ -155,7 +90,7 @@ export function displayItemsCart() {
             <div class="imgcart-cont">
             <img class="imagecart" src="${product.src}">
             </div>
-            <div class="pricecart">$${product.price}</div>
+            <div class="pricecart">NOK${product.price}</div>
         </div>
         `;
       }
@@ -165,10 +100,84 @@ export function displayItemsCart() {
     let totalcost = getTotal();
   const total = document.createElement('p');
   total.classList.add('price-cart');
-  total.innerHTML = `Total: $${totalcost}`
+  total.innerHTML = `Total: NOK${totalcost}`
   shoppingCart.appendChild(total)
   const checkoutbtn = document.createElement('a');
   checkoutbtn.classList.add('checkoutbtn');
   checkoutbtn.href = "/pages/checkout.html";
   checkoutbtn.innerHTML = "Checkout"
   shoppingCart.appendChild(checkoutbtn)
+
+  export let products = [
+    {
+    name: "Heat",
+    id: 39,
+    price: 950,
+    description: "<p>A durable and thick wool jacket perfect for camping trips</p>\n",
+    src: "https://gripdev.no/wp-content/uploads/2023/04/RainyDays_Jacket7.png",
+    color1: "red",
+    color2: "blue",
+    color3: "black"
+      },
+      {
+    name: "Sleek",
+    id: 38,
+    price: 890,
+    description: "<p>Water-resistant lightweight jacket with breathable mesh lining</p>\n",
+    src: "https://gripdev.no/wp-content/uploads/2023/04/RainyDays_Jacket6.png",
+    color1: "",
+    color2: "",
+    color3: ""
+      },
+    {
+    name: "Charge",
+    id: 34,
+    price: 2750,
+    description: "p>Windproof and water-resistant jacket with detachable hood</p>\n",
+    src: "https://gripdev.no/wp-content/uploads/2023/04/RainyDays_Jacket5.png",
+    color1: "red",
+    color2: "blue",
+    color3: "black",
+    },
+    {
+    name: "Storm",
+    id: 33,
+    price: 1250,
+    description: "<p>A durable and thick wool jacket perfect for camping trips</p>\n",
+    src: "https://gripdev.no/wp-content/uploads/2023/04/RainyDays_Jacket4.png",
+    color1: "red",
+    color2: "blue",
+    color3: "black",
+    },
+    {
+    name: "Hercules",
+    id: 32,
+    price: 740,
+    description: "<p>A durable and thick wool jacket perfect for camping trips</p>\n",
+    src: "https://gripdev.no/wp-content/uploads/2023/04/RainyDays_Jacket3.png",
+    color1: "red",
+    color2: "blue",
+    color3: "black",
+    },
+    {
+    name: "Explorer",
+    id: 31,
+    price: 980,
+    description: "<p>A durable and thick wool jacket perfect for camping trips</p>\n",
+    src: "https://gripdev.no/wp-content/uploads/2023/04/RainyDays_Jacket2.png",
+    color1: "red",
+    color2: "blue",
+    color3: "black",
+    },
+    {
+    name: "Expedition",
+    id: 18,
+    price: 1850,
+    description: "<p>A durable and thick wool jacket perfect for camping trips</p>\n",
+    src: "https://gripdev.no/wp-content/uploads/2023/04/RainyDays_Jacket1.png",
+    color1: "red",
+    color2: "blue",
+    color3: "black",
+        },
+    
+    ];
